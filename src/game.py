@@ -2,11 +2,13 @@ import pygame
 
 from const import *
 from board import Board
+from dragger import Dragger
 
 
 class Game:
     def __init__(self):
         self.board = Board()
+        self.dragger = Dragger()
 
     # background display
     def show_bg(self, surface):
