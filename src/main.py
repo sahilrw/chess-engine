@@ -22,10 +22,14 @@ class Main:
             game.show_bg(screen)
             game.show_pieces(screen)
 
+            if dragger.dragging:
+                dragger.update_blit(screen)
+
             for event in pygame.event.get():
                 # click
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     dragger.update_mouse(event.pos)
+                    # print(event.pos)
 
                     clicked_row = dragger.mouseY // SQSIZE
                     clicked_col = dragger.mouseX // SQSIZE
@@ -42,11 +46,12 @@ class Main:
                 # dragging the pieces
                 elif event.type == pygame.MOUSEMOTION:
                     if dragger.dragging:
+                        dragger.update_mouse(event.pos)
                         dragger.update_blit(screen)
 
                 # mouse release
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    pass
+                    dragger.undrag_piece()
 
                 # quit application
                 elif event.type == pygame.QUIT:
