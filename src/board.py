@@ -1,12 +1,12 @@
 from const import *
 from square import Square
 from piece import *
+from move import Move
 
 
 class Board:
     def __init__(self):
         self.squares = [[0, 0, 0, 0, 0, 0, 0, 0] for col in range(COLS)]
-
         self._create()
         self._add_pieces("white")
         self._add_pieces("black")
@@ -36,12 +36,17 @@ class Board:
                         possible_move_col
                     ].isempty_or_rival(piece.color):
                         # if the condition satisfy then it is a valid move
-                        pass
+                        # create squares of new move
+                        initial = Square(row, col)
+                        final = Square(possible_move_row, possible_move_col)
+                        # create new move
+                        move = Move(initial, final)
+                        piece.add_move(move)
 
         if piece.name == "Pawn":
             pass
 
-        elif piece.name == "Knight":
+        elif isinstance(piece, Knight):
             knight_moves()
 
         elif piece.name == "Bishop":
