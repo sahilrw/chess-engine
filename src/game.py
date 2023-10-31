@@ -51,16 +51,19 @@ class Game:
                     else "#C84648"
                 )
                 # rect
-                # rect = (
-                #     move.final.col * SQSIZE,
-                #     move.final.row * SQSIZE,
-                #     SQSIZE,
-                #     SQSIZE,
-                # )
-                # circle
-                center_x = move.final.col * SQSIZE + SQSIZE // 2
-                center_y = move.final.row * SQSIZE + SQSIZE // 2
+                rect = (
+                    move.final.col * SQSIZE,
+                    move.final.row * SQSIZE,
+                    SQSIZE,
+                    SQSIZE,
+                )
 
-                radius = SQSIZE // 6
-                # blit
-                pygame.draw.circle(surface, color, (center_x, center_y), radius)
+                pygame.draw.rect(surface, color, rect)
+
+                # circle
+                # center_x = move.final.col * SQSIZE + SQSIZE // 2
+                # center_y = move.final.row * SQSIZE + SQSIZE // 2
+
+                # radius = SQSIZE // 6
+                # # blit
+                # pygame.draw.circle(surface, color, (center_x, center_y), radius)
