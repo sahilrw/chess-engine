@@ -115,6 +115,35 @@ class Board:
                         possible_move_col + col_incr,
                     )
 
+        def king_moves():
+            adjs = [
+                (row - 1, col + 0),  # up
+                (row - 1, col + 1),  # up-right
+                (row + 0, col + 1),  # right
+                (row + 1, col + 1),  # down-right
+                (row + 1, col + 0),  # down
+                (row + 1, col - 1),  # down-left
+                (row + 0, col - 1),  # left
+                (row - 1, col - 1),  # up
+            ]
+
+            for possible_move in adjs:
+                possible_move_row, possible_move_col = possible_move
+
+                # check whether the move is in range(on board == square 0 to 7)
+                if Square.in_range(possible_move_row, possible_move_col):
+                    # check whether square is empty or it has opponent piece
+                    if self.squares[possible_move_row][
+                        possible_move_col
+                    ].isempty_or_enemy(piece.color):
+                        # if the condition satisfy then it is a valid move
+                        # create squares of new move
+                        initial = Square(row, col)
+                        final = Square(possible_move_row, possible_move_col)
+                        # create new move
+                        move = Move(initial, final)
+                        piece.add_move(move)
+
         if isinstance(piece, Pawn):
             pawn_moves()
 
@@ -156,7 +185,7 @@ class Board:
             )
 
         elif isinstance(piece, King):
-            pass
+            king_moves()
 
     def _create(self):
         for row in range(ROWS):
@@ -192,3 +221,4 @@ class Board:
 
         # king
         self.squares[row_other][4] = Square(row_other, 4, King(color))
+        self.squares[4][4] = Square(4, 4, King("white"))
