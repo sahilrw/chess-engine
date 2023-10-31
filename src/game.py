@@ -46,24 +46,24 @@ class Game:
             for move in piece.moves:
                 # color
                 color = (
-                    "#800080"
+                    "#C86464"
                     if (move.final.row + move.final.col) % 2 == 0
-                    else "#C84648"
+                    else "#C84646"
                 )
                 # rect
-                rect = (
-                    move.final.col * SQSIZE,
-                    move.final.row * SQSIZE,
-                    SQSIZE,
-                    SQSIZE,
-                )
+                # rect = (
+                #     move.final.col * SQSIZE,
+                #     move.final.row * SQSIZE,
+                #     SQSIZE,
+                #     SQSIZE,
+                # )
 
-                pygame.draw.rect(surface, color, rect)
+                # pygame.draw.rect(surface, color, rect)
 
                 # circle
-                # center_x = move.final.col * SQSIZE + SQSIZE // 2
-                # center_y = move.final.row * SQSIZE + SQSIZE // 2
+                center_x = move.final.col * SQSIZE + SQSIZE // 2
+                center_y = move.final.row * SQSIZE + SQSIZE // 2
 
-                # radius = SQSIZE // 6
-                # # blit
-                # pygame.draw.circle(surface, color, (center_x, center_y), radius)
+                radius = SQSIZE // 6
+                # blit
+                pygame.draw.circle(surface, color, (center_x, center_y), radius)
