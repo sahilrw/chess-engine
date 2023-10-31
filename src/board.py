@@ -12,6 +12,40 @@ class Board:
         self._add_pieces("black")
 
     def calc_moves(self, piece, row, col):
+        def pawn_moves():
+            # 2 step move on the first move else 1
+            steps = 1 if piece.moved else 2
+
+            # vertical moves
+            start = row + piece.dir
+            end = row + (piece.dir * (1 + steps))
+            for possible_move_row in range(start, end, piece.dir):
+                if Square.in_range(possible_move_row):
+                    if self.squares[possible_move_row][col].isempty():
+                        initial = Square(row, col)
+                        final = Square(possible_move_row, col)
+                        move = Move(initial, final)
+                        piece.add_move(move)
+                    # next square !empty
+                    else:
+                        break
+                # not in range
+                else:
+                    break
+
+            # piece capture move
+            possible_move_row = row + piece.dir
+            possible_move_cols = [col - 1, col + 1]
+            for possible_move_col in possible_move_cols:
+                if Square.in_range(possible_move_row, possible_move_col):
+                    if self.squares[possible_move_row][
+                        possible_move_col
+                    ].has_enemy_piece(piece.color):
+                        initial = Square(row, col)
+                        final = Square(possible_move_row, possible_move_col)
+                        move = Move(initial, final)
+                        piece.add_move(move)
+
         def knight_moves():
             # 8 possible moves for knight(L direction)
             possible_moves = [
@@ -43,41 +77,6 @@ class Board:
                         move = Move(initial, final)
                         piece.add_move(move)
 
-        def pawn_moves():
-            steps = 1 if piece.moved else 2
-
-            # vertical moves
-            start = row + piece.dir
-            end = row + (piece.dir * (1 + steps))
-            for possible_move_row in range(start, end, piece.dir):
-                if Square.in_range(possible_move_row):
-                    if self.squares[possible_move_row][col].isempty():
-                        # create initial and final move squares
-                        initial = Square(row, col)
-                        final = Square(possible_move_row, col)
-                        move = Move(initial, final)
-                        piece.add_move(move)
-                        # piece is blocked(can't move forward)
-                    else:
-                        break
-                # not in range
-                else:
-                    break
-
-                # diagonal moves
-                possible_move_row = row + piece.dir
-                possible_move_cols = [col - 1, col + 1]
-                for possible_move_col in possible_move_cols:
-                    if Square.in_range(possible_move_row, possible_move_col):
-                        if self.squares[possible_move_row][
-                            possible_move_col
-                        ].has_enemy_piece(piece.color):
-                            # create initial and final move squares
-                            initial = Square(row, col)
-                            final = Square(possible_move_row, possible_move_col)
-                            move = Move(initial, final)
-                            piece.add_move(move)
-
         if isinstance(piece, Pawn):
             pawn_moves()
 
@@ -107,8 +106,9 @@ class Board:
         # pawns
         for col in range(COLS):
             self.squares[row_pawn][col] = Square(row_pawn, col, Pawn(color))
-            self.squares[5][1] = Square(4, 0, Pawn(color))
-            # self.squares[4][0] = Square(4, 0, Pawn(color))
+            self.squares[5][1] = Square(5, 1, Pawn(color))
+            self.squares[5][7] = Square(2, 7, Pawn(color))
+            self.squares[2][2] = Square(2, 2, Pawn("white"))
 
         # knights
         self.squares[row_other][1] = Square(row_other, 1, Knight(color))
