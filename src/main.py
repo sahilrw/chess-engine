@@ -109,6 +109,9 @@ class Main:
                     # restart event
                     if event.key == pygame.K_r:
                         game.reset()
+                        game = self.game
+                        board = self.game.board
+                        dragger = self.game.dragger
 
                 # quit application
                 elif event.type == pygame.QUIT:
