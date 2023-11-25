@@ -89,6 +89,7 @@ class Main:
                             ].has_piece()
 
                             board.move(dragger.piece, move)
+                            board.set_true_en_passant(dragger.piece)
                             game.play_sound(captured)
                             # display move methods
                             game.show_bg(screen)
